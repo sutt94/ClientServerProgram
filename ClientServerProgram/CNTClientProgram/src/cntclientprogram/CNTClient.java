@@ -53,12 +53,16 @@ public class CNTClient {
         System.out.printf("Server reponse time(s) in miliseconds below. %n");
         for (ClientSideThread thread : clientThreads) {
             System.out.printf("%.2f, ", thread.getTotalTime());
+            
             sumTotalTimes += thread.getTotalTime();
         }
+        System.out.printf("%n");
+        System.out.println("Total time to complete the request: " + sumTotalTimes);
+        System.out.println("");
         System.out.printf("%nAverage Server response time: %.2f ms", (sumTotalTimes / ((double) numberOfThreads)));
-        System.out.println("");
-        System.out.println("");
+        System.out.printf("%n");
     }
+    
 
     private static void serverExit() {
 
@@ -106,7 +110,7 @@ public class CNTClient {
                 running = false;
                 break;
             } else {
-                System.out.printf("The command to be run is on the host is%s%n", command);
+                System.out.printf("The command to be run is on the host is%n", command);
                 System.out.println("Output from the host: ");
 
                 createThreads(numberOfThreads, host, 5000, command);

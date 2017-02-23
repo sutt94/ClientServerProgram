@@ -79,6 +79,7 @@ public class UI {
         System.out.printf("5. Check the processes currently running on the host.%n");
         System.out.printf("6. Check who is currently using the host.%n");
         System.out.printf("7. Quit%n");
+        System.out.printf("%n");
         System.out.printf("Please enter a numeric command: ");
         return;
     }

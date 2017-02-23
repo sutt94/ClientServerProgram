@@ -21,8 +21,8 @@ public class ClientSideThread extends Thread {
     private String serverCommand;
     private String host;
     private long startingTime;
-    private double timeElapsed;
-    private double totalTime;
+    private long timeElapsed;
+    private long totalTime;
     private int port;
 
     public ClientSideThread(String host, int port, String serverCommand) {
@@ -68,10 +68,10 @@ public class ClientSideThread extends Thread {
                 Socket socket = new Socket(this.host, this.port);
                 PrintWriter outputStream = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-                beginTimer();
+                
+                
                 totalTime = 0;
-
+                beginTimer();
                 outputStream.println(this.serverCommand);
 
                 //print output from server until done message recieved, do timer stuff
@@ -87,10 +87,10 @@ public class ClientSideThread extends Thread {
                     }
                 }
                 stopTimer();
+                updateTotalTime();
                 inputStream.close();
                 outputStream.close();
-
-                updateTotalTime();
+                
                 System.out.printf("%n");
                 System.out.printf("%n");
                 socket.close();

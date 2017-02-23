@@ -30,7 +30,7 @@ public class CNTServerProgram {
         }
 
         try {
-            boolean running = true;
+            
             while (true) {
 
                 //open input and output streams, accept socket
@@ -63,10 +63,10 @@ public class CNTServerProgram {
 
                             BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-                            String line;
-                            while ((line = input.readLine()) != null) {
-                                System.out.println(line);
-                                outputStream.println(line);
+                            String string;
+                            while ((string = input.readLine()) != null) {
+                                System.out.println(string);
+                                outputStream.println(string);
                             }
                             //signals the output from the command is complete
                             outputStream.println("done");
