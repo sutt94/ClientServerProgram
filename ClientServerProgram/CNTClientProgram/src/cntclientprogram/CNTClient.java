@@ -31,16 +31,17 @@ public class CNTClient {
 
     private static void startThreads() {
         int i;
-        boolean running = true;
+        boolean threadsAlive = true;
         for (i = 0; i < clientThreads.length; i++) {
 
             clientThreads[i].start();
         }
-        while (running) {
-            running = false;
+        //make sure all the threads are dead before leaving the function
+        while (threadsAlive) {
+            threadsAlive = false;
             for (i = 0; i < clientThreads.length; i++) {
                 if (clientThreads[i].isAlive()) {
-                    running = true;
+                    threadsAlive = true;
 
                 }
             }

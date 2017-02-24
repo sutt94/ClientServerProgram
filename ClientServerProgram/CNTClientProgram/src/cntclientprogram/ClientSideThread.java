@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -47,16 +48,17 @@ public class ClientSideThread extends Thread {
     }
 
     private void beginTimer() {
-        this.startingTime = System.currentTimeMillis();
+        this.startingTime = System.nanoTime();
     }
 
     private void stopTimer() {
-        long currentTime = System.currentTimeMillis();
-        this.timeElapsed = currentTime - this.startingTime;
+        this.timeElapsed = System.nanoTime() - this.startingTime;
     }
+    
 
     private void updateTotalTime() {
         this.totalTime += this.timeElapsed;
+        
     }
 
     public void run() {
@@ -71,15 +73,17 @@ public class ClientSideThread extends Thread {
                 
                 
                 totalTime = 0;
-                beginTimer();
+                
+                //send command to server
                 outputStream.println(this.serverCommand);
-
+                beginTimer();
                 //print output from server until done message recieved, do timer stuff
                 while (true) {
                     string = inputStream.readLine();
                     if (!string.equals("done")) {
                         stopTimer();
                         updateTotalTime();
+                        timeElapsed = 0;
                         System.out.println(string);
                         beginTimer();
                     } else {
@@ -88,6 +92,7 @@ public class ClientSideThread extends Thread {
                 }
                 stopTimer();
                 updateTotalTime();
+                totalTime = TimeUnit.NANOSECONDS.toMillis(totalTime);
                 inputStream.close();
                 outputStream.close();
                 
