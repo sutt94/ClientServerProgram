@@ -42,11 +42,19 @@ public class CNTClient {
             for (i = 0; i < clientThreads.length; i++) {
                 if (clientThreads[i].isAlive()) {
                     threadsAlive = true;
+                    //if some threads are alive, wait 10 ms before starting the loop again
+                    //gives threads more time to execute and hopefully eliminates needless loops
+                    try {
+                        Thread.sleep(10);
+                    } catch (Exception e) {
+
+                    }
 
                 }
             }
         }
     }
+//prints thread response time and calculates average response time and prints it
 
     private static void getResponseTimes(int numberOfThreads) {
         double sumTotalTimes = 0;
@@ -54,24 +62,24 @@ public class CNTClient {
         System.out.printf("Server reponse time(s) in miliseconds below. %n");
         for (ClientSideThread thread : clientThreads) {
             System.out.printf("%.2f, ", thread.getTotalTime());
-            
+
             sumTotalTimes += thread.getTotalTime();
         }
-        System.out.printf("%n");
-        System.out.println("Total time to complete the request: " + sumTotalTimes);
         System.out.println("");
         System.out.printf("%nAverage Server response time: %.2f ms", (sumTotalTimes / ((double) numberOfThreads)));
-        System.out.printf("%n");
+        System.out.println("");
+        System.out.println("");
     }
-    
 
+//send exit command to the server
     private static void serverExit() {
 
         try {
 
             Socket socket = new Socket(host, 5000);
-            PrintWriter serverOutput = new PrintWriter(socket.getOutputStream(), true);
-            serverOutput.printf("exit");
+            PrintWriter outputStream = new PrintWriter(socket.getOutputStream(), true);
+            outputStream.printf("exit");
+            outputStream.close();
             socket.close();
         } catch (IOException i) {
         }
@@ -107,11 +115,11 @@ public class CNTClient {
                 numberOfThreads = ui.updateNumberOfThreads();
             } else if (command.equals("exit")) {
                 serverExit();
-                System.out.printf("The program is exitting...%n");
+                System.out.printf("The program is exiting...%n");
                 running = false;
                 break;
             } else {
-                System.out.printf("The command to be run is on the host is%n", command);
+                System.out.printf("The command to be run is on the host is %n", command);
                 System.out.println("Output from the host: ");
 
                 createThreads(numberOfThreads, host, 5000, command);

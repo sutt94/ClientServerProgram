@@ -23,7 +23,7 @@ public class CNTServerProgram {
         try {
             sSocket = new ServerSocket(5000);
             System.out.println("The Server Socket has been created");
-            System.out.println("Waiting for client...");
+            System.out.println("Waiting for client connection...");
             System.out.println("");
         } catch (IOException i) {
             System.out.println(i);
@@ -35,7 +35,7 @@ public class CNTServerProgram {
 
                 //open input and output streams, accept socket
                 cSocket = sSocket.accept();
-                System.out.printf("The client has been accepted...%n");
+                System.out.printf("The client connection has been accepted...%n");
                 System.out.printf("Running command from client thread...%n");
                 System.out.println("");
 
@@ -60,15 +60,17 @@ public class CNTServerProgram {
                         try {
                             Runtime runtime = Runtime.getRuntime();
                             Process process = runtime.exec(command);
-
+                            //reads lines from process executing command
                             BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
                             String string;
+                            //print the results of the command and send them to the client
                             while ((string = input.readLine()) != null) {
                                 System.out.println(string);
+                                //send command output to client
                                 outputStream.println(string);
                             }
-                            //signals the output from the command is complete
+                            //tells the client that server output is finished
                             outputStream.println("done");
 
                             //report completion of commands, waiting for a new command

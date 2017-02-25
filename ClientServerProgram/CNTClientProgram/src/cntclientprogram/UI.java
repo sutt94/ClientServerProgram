@@ -70,7 +70,7 @@ public class UI {
 
     public void displayUserMenu() {
         System.out.printf("Please enter a command to be run on the server.%n");
-        System.out.printf("Threads to be used %d%n", this.numberOfThreads);
+        System.out.printf("Threads to be used is %d%n", this.numberOfThreads);
         System.out.printf("0. Change the number of threads.%n");
         System.out.printf("1. Get the uptime of the host.%n");
         System.out.printf("2. Get the date and time information.%n");

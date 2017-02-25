@@ -72,12 +72,13 @@ public class ClientSideThread extends Thread {
                 BufferedReader inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 
                 
-                totalTime = 0;
+                
                 
                 //send command to server
                 outputStream.println(this.serverCommand);
                 beginTimer();
                 //print output from server until done message recieved, do timer stuff
+                //don't take into account the time the client is simply printing the line it recieved from the server
                 while (true) {
                     string = inputStream.readLine();
                     if (!string.equals("done")) {
