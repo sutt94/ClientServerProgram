@@ -27,7 +27,7 @@ public class UI {
         this.numberOfThreads = numberOfThreads;
     }
 
-    //gets the numeric command entered by the user
+    //gets the numeric command entered by the user, makes sure input is between 0-7
     public int getNumericCommand() {
         int numericCommand;
         Scanner userInput = new Scanner(System.in);
@@ -36,38 +36,42 @@ public class UI {
             numericCommand = userInput.nextInt();
             if (numericCommand < 0 || numericCommand > 7) {
                 System.out.printf("Incorrect input, enter a number 0-7.%n");
+                //if input was incorrect do it again
                 numericCommand = getNumericCommand();
             }
         } catch (InputMismatchException i) {
             System.out.printf("Incorrect input, please enter a numeric command of 0-7.%n");
+            //if input was incorrect do it again
             numericCommand = getNumericCommand();
         }
-
+//returns numberic command from the user
         return numericCommand;
     }
-
+//returns command from array that corresponds to user numeric input
     public String getServerCommandFromUserCommand() {
         int numericCommand = this.getNumericCommand();
 
         return this.commands[numericCommand];
     }
-
+//handles user updating the number of threads to be rum
     public int updateNumberOfThreads() {
         int newNumberOfThreads = 1;
 
         System.out.printf("Enter the new number of threads: ");
         Scanner userInput = new Scanner(System.in);
         try {
+            //updates number of threads to number inputted by user
             newNumberOfThreads = userInput.nextInt();
+            //catches non int input
         } catch (InputMismatchException i) {
             System.out.printf("Incorrect input... please enter a numeric representation of the  number of threads to use.%n");
 
         }
-
+//returns the new number of threads and updates the ui instanve numberOfThreads
         this.numberOfThreads = newNumberOfThreads;
         return newNumberOfThreads;
     }
-
+//displays menu to be presented to the user
     public void displayUserMenu() {
         System.out.printf("Please enter a command to be run on the server.%n");
         System.out.printf("Threads to be used is %d%n", this.numberOfThreads);

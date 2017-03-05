@@ -55,7 +55,7 @@ public class CNTServerProgram {
                         
                         return;
 
-                    } //if the command is not exit execute the command, send output to client
+                    } //if the command is not exit execute the command process, print output and send output to client
                     else {
                         try {
                             Runtime runtime = Runtime.getRuntime();
@@ -65,9 +65,11 @@ public class CNTServerProgram {
 
                             String string;
                             //print the results of the command and send them to the client
+                            //string is reading lines printed by the process the executed the command
                             while ((string = input.readLine()) != null) {
+                                //print command output here
                                 System.out.println(string);
-                                //send command output to client
+                                //send command output from process  to client
                                 outputStream.println(string);
                             }
                             //tells the client that server output is finished

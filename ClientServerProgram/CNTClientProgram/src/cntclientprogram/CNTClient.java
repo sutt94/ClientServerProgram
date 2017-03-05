@@ -23,7 +23,7 @@ public class CNTClient {
         clientThreads = new ClientSideThread[numberOfThreads];
 
         for (int i = 0; i < numberOfThreads; i++) {
-            ;
+            
             clientThreads[i] = new ClientSideThread(host, port, command);
 
         }
@@ -107,7 +107,7 @@ public class CNTClient {
         }
 
         ui = new UI(numberOfThreads);
-        while (running = true) {
+        while (true) {
             ui.displayUserMenu();
             command = ui.getServerCommandFromUserCommand();
 
@@ -116,15 +116,16 @@ public class CNTClient {
             } else if (command.equals("exit")) {
                 serverExit();
                 System.out.printf("The program is exiting...%n");
-                running = false;
+                
                 break;
             } else {
                 System.out.printf("The command to be run is on the host is %n", command);
                 System.out.println("Output from the host: ");
 
                 createThreads(numberOfThreads, host, 5000, command);
+                //start the threads, exit function when all threads are done
                 startThreads();
-
+                //get the average response times from threads
                 getResponseTimes(numberOfThreads);
 
             }

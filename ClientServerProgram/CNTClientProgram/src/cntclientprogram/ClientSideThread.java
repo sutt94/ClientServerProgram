@@ -60,7 +60,7 @@ public class ClientSideThread extends Thread {
         this.totalTime += this.timeElapsed;
         
     }
-
+//method executed by the thread
     public void run() {
 
         while (true) {
@@ -74,34 +74,48 @@ public class ClientSideThread extends Thread {
                 
                 
                 
-                //send command to server
-                outputStream.println(this.serverCommand);
+                //begin timer and send command to server
                 beginTimer();
-                //print output from server until done message recieved, do timer stuff
+                outputStream.println(this.serverCommand);
+                
+                //print output from server until done message received, do timer stuff
                 //don't take into account the time the client is simply printing the line it recieved from the server
                 while (true) {
+                    //get line of input from the server
                     string = inputStream.readLine();
                     if (!string.equals("done")) {
+                        //update the elapsed time
                         stopTimer();
+                        //add the elapsed time to the total time
                         updateTotalTime();
+                        //reset elapsed time for next calculation
                         timeElapsed = 0;
+                        //print the line of output from the server
                         System.out.println(string);
+                        //start the timer before reading next line from the server
                         beginTimer();
                     } else {
                         break;
                     }
                 }
+                //get elapsed time from the last line received from server
                 stopTimer();
+                //update total time
                 updateTotalTime();
+                //convert total time from nano to ms
                 totalTime = TimeUnit.NANOSECONDS.toMillis(totalTime);
+                //close streams
                 inputStream.close();
                 outputStream.close();
                 
                 System.out.printf("%n");
                 System.out.printf("%n");
+                //close socket
                 socket.close();
-
+                //exit loop
                 break;
+                
+                
             } catch (UnknownHostException i) {
                 System.out.printf("Error, the host is unknown...t%n");
                 i.printStackTrace();
